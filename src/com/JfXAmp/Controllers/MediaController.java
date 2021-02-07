@@ -1,10 +1,11 @@
-package sample;
+package com.JfXAmp.Controllers;
 
+import com.JfXAmp.Controller;
+import com.JfXAmp.Controllers.Equaliser;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
 import javafx.scene.media.*;
 import javafx.util.Duration;
 

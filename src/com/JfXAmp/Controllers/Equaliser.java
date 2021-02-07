@@ -1,7 +1,6 @@
-package sample;
+package com.JfXAmp.Controllers;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,12 +18,10 @@ import javafx.scene.media.AudioEqualizer;
 import javafx.scene.media.EqualizerBand;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.*;
-import java.util.EventListener;
 
 
 public class Equaliser {

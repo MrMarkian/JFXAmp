@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +12,6 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -25,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.JfXAmp.Controller">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -42,6 +38,17 @@
                     <MenuItem mnemonicParsing="false" onAction="#handleM3ULoadRequest" text="Open M3U" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Windows">
+                    <items>
+                        <Menu mnemonicParsing="false" text="Add Windows">
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                            <MenuItem mnemonicParsing="false" text="Playlist" />
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                          </items>
+                        </Menu>
+                    </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
@@ -119,44 +126,10 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" text="Visualiser">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0">
-                           <children>
-                              <HBox layoutX="5.0" layoutY="4.0" spacing="60.0">
-                                 <children>
-                                    <Slider fx:id="band1" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band2" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band3" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band4" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band5" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band6" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band7" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band8" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band9" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Slider fx:id="band10" blockIncrement="0.01" majorTickUnit="1.0" max="1.0" minorTickCount="1" orientation="VERTICAL" prefHeight="174.0" prefWidth="0.0" showTickLabels="true" showTickMarks="true" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </TitledPane>
+                <TitledPane animated="false" text="Visualiser" />
                 <TitledPane animated="false" text="untitled 3">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <BarChart fx:id="vuChart" prefHeight="186.0" prefWidth="709.0" title="VU Meter">
-                                 <xAxis>
-                                    <CategoryAxis side="BOTTOM" />
-                                 </xAxis>
-                                 <yAxis>
-                                    <NumberAxis side="LEFT" />
-                                 </yAxis>
-                                 <effect>
-                                    <InnerShadow />
-                                 </effect>
-                              </BarChart>
-                           </children></AnchorPane>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                   </content>
                 </TitledPane>
               </panes>

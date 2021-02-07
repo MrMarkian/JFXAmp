@@ -1,5 +1,6 @@
-package sample;
+package com.JfXAmp.Controllers;
 
+import com.JfXAmp.Controllers.MediaController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;

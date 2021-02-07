@@ -1,15 +1,16 @@
-package sample;
+package com.JfXAmp;
 
 public class LibraryItem {
+
+    int runtime;
+    String Title;
+    String Filepath;
+
     public LibraryItem(int runtime, String title, String filepath) {
         this.runtime = runtime;
         Title = title;
         Filepath = filepath;
     }
-
-    int runtime;
-    String Title;
-    String Filepath;
 
     public int getRuntime() {
         return runtime;

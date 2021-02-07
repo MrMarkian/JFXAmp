@@ -1,13 +1,14 @@
-package sample;
+package com.JfXAmp;
 
+import com.JfXAmp.Controllers.Equaliser;
+import com.JfXAmp.Controllers.MediaController;
+import com.JfXAmp.Controllers.Visualisation;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -20,8 +21,6 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -213,25 +212,7 @@ public class Controller extends Application implements Initializable {
 
 
 
-    public void handleM3ULoadRequest() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Pick an M3U");
 
-        List<File> fileList = fileChooser.showOpenMultipleDialog(null);
-
-
-
-        for (File file: fileList) {
-
-            for (LibraryItem item: libraryService.loadM3u(file)) {
-                try{
-                addToPlaylist(item);}
-                catch (Exception e)
-                { System.out.println(e.getMessage());}
-            }
-        }
-
-    }
 
     public void addToPlaylist(LibraryItem item) throws MalformedURLException {
 

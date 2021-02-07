@@ -18,7 +18,7 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: --module-path=C:\JavaJDK\javafx-sdk-15\lib --add-modules=javafx.controls,javafx.fxml,javafx.media --add-exports=javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-modules=javafx.base,javafx.graphics --add-reads=javafx.base=ALL-UNNAMED --add-reads=javafx.graphics=ALL-UNNAMED -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.1\lib\idea_rt.jar=62534:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.1\bin -Dfile.encoding=UTF-8 sample.Main
+Command Line: --module-path=C:\JavaJDK\javafx-sdk-15\lib --add-modules=javafx.controls,javafx.fxml,javafx.media --add-exports=javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-modules=javafx.base,javafx.graphics --add-reads=javafx.base=ALL-UNNAMED --add-reads=javafx.graphics=ALL-UNNAMED -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.1\lib\idea_rt.jar=62534:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.1\bin -Dfile.encoding=UTF-8 Main
 
 Host: Intel(R) Core(TM) i5-3470 CPU @ 3.20GHz, 4 cores, 7G,  Windows 10 , 64 bit Build 19041 (10.0.19041.292)
 Time: Thu Oct  1 10:06:42 2020 GMT Summer Time elapsed time: 801 seconds (0d 0h 13m 21s)
@@ -750,7 +750,7 @@ symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Us
 
 VM Arguments:
 jvm_args: --module-path=C:\JavaJDK\javafx-sdk-15\lib --add-modules=javafx.controls,javafx.fxml,javafx.media --add-exports=javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-modules=javafx.base,javafx.graphics --add-reads=javafx.base=ALL-UNNAMED --add-reads=javafx.graphics=ALL-UNNAMED -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.1\lib\idea_rt.jar=62534:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.1\bin -Dfile.encoding=UTF-8 
-java_command: sample.Main
+java_command: Main
 java_class_path (initial): C:\GitHub\JFXAmp\out\production\JFXAmp;C:\JavaJDK\javafx-sdk-15\lib\src.zip;C:\JavaJDK\javafx-sdk-15\lib\javafx-swt.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.web.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.base.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.fxml.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.media.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.swing.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.controls.jar;C:\JavaJDK\javafx-sdk-15\lib\javafx.graphics.jar
 Launcher Type: SUN_STANDARD
 

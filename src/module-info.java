@@ -5,5 +5,5 @@ module JFXAmp {
     requires javafx.web;
     requires javafx.media;
 
-    opens sample;
+    opens com.JfXAmp;
 }
