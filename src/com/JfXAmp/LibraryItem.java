@@ -2,14 +2,23 @@ package com.JfXAmp;
 
 public class LibraryItem {
 
-    int runtime;
+    Integer runtime;
     String Title;
     String Filepath;
 
-    public LibraryItem(int runtime, String title, String filepath) {
+    public LibraryItem(Integer runtime, String title, String filepath) {
         this.runtime = runtime;
         Title = title;
         Filepath = filepath;
+    }
+
+    public LibraryItem(){
+
+    }
+
+    @Override
+    public String toString() {
+        return Filepath;
     }
 
     public int getRuntime() {

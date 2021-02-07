@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -35,15 +34,20 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#handleM3ULoadRequest" text="Open M3U" />
+                    <MenuItem mnemonicParsing="false" text="Open M3U" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="Windows">
                     <items>
-                        <Menu mnemonicParsing="false" text="Add Windows">
+                        <Menu mnemonicParsing="false" text="Add New Windows">
                           <items>
-                              <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                            <MenuItem mnemonicParsing="false" text="Playlist" />
+                              <MenuItem mnemonicParsing="false" onAction="#CreateEQWindow" text="Equaliser" />
+                            <MenuItem mnemonicParsing="false" onAction="#CreatePlWindow" text="Playlist" />
+                            <MenuItem mnemonicParsing="false" onAction="#CreateVSWindow" text="Visualiser" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Attach Window">
+                          <items>
                             <MenuItem mnemonicParsing="false" text="Action 1" />
                           </items>
                         </Menu>
@@ -184,16 +188,6 @@
    </bottom>
    <right>
       <VBox alignment="TOP_CENTER" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="addFilesButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#AddFilesToPlaylist" text="Add Files" />
-            <ListView fx:id="playlist" onMouseReleased="#PlayFileFromPlaylist" VBox.vgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-               </VBox.margin></ListView>
-         </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>

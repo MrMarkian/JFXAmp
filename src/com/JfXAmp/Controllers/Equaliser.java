@@ -54,8 +54,6 @@ public class Equaliser {
 
     public void Display() {
 
-
-
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {

@@ -61,17 +61,17 @@ public class MediaController {
     public static ObservableList<EqualizerBand> getcurrentEqSettings() {return currentEqSettings;}
 
 
-    public static void playMedia(Controller cont){
+    public static void playMedia(){
         if(mediaPlayer != null) {
             mediaPlayer.stop();
         }
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(currentVolume);
 
-        mediaPlayer.currentTimeProperty().addListener((observable -> {
+       /* mediaPlayer.currentTimeProperty().addListener((observable -> {
             cont.updatePlayTime();
         }));
-
+*/
         media.getMetadata().addListener(new MapChangeListener<String, Object>() {
             @Override
             public void onChanged(Change<? extends String, ? extends Object> ch) {
@@ -93,9 +93,9 @@ public class MediaController {
 
         mediaPlayer.setOnReady(new Runnable() {
             public void run() {
-                cont.updateAllValues();
-                mediaPlayer.currentTimeProperty().addListener((observable, oldDuration, newDuration)
-                        -> cont.updateSeekSlider(oldDuration, newDuration));
+              //  cont.updateAllValues();
+//                mediaPlayer.currentTimeProperty().addListener((observable, oldDuration, newDuration)
+//                        -> cont.updateSeekSlider(oldDuration, newDuration));
                 Equaliser equaliser = new Equaliser(mediaPlayer);
                 equaliser.loadEQ(mediaPlayer);
                 equaliser.createUI(mediaPlayer);

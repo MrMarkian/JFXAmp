@@ -1,15 +1,37 @@
 package com.JfXAmp;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.util.*;
 
-public class LibraryService {
 
-    public List<LibraryItem> currentPlaylist;
+public class LibraryService {
+    List<LibraryItem> currentPlaylist = new ArrayList<LibraryItem>();
+    public ObservableList<LibraryItem> observablePlaylist = FXCollections.observableArrayList(new LibraryItem());
 
     //:Todo  -- Needs to handle relative locations
+
+
+    public ObservableList<LibraryItem> getObservablePlaylist(){
+        return observablePlaylist;
+    }
+
+    public void clearPlaylist(){observablePlaylist.clear();}
+
+    public void handleFileLoadRequest() throws IOException{
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Pick Media Files");
+        List<File> fileList = fileChooser.showOpenMultipleDialog(null);
+        for (File file: fileList){
+            LibraryItem tmpItem = new LibraryItem(null,null,file.getAbsolutePath());
+            observablePlaylist.add(tmpItem);
+        }
+    }
 
     public void handleM3ULoadRequest() throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -17,13 +39,13 @@ public class LibraryService {
 
         List<File> fileList = fileChooser.showOpenMultipleDialog(null);
 
-
-
         for (File file: fileList) {
 
             for (LibraryItem item: loadM3u(file)) {
-                try{
-                    currentPlaylist.add(item);}
+                try {
+                    LibraryItem tmpItem = new LibraryItem(null, null, file.getAbsolutePath());
+                    currentPlaylist.add(tmpItem);
+                }
                 catch (Exception e)
                 { System.out.println(e.getMessage());}
             }

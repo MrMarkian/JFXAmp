@@ -1,8 +1,6 @@
 package com.JfXAmp;
 
-import com.JfXAmp.Controllers.Equaliser;
-import com.JfXAmp.Controllers.MediaController;
-import com.JfXAmp.Controllers.Visualisation;
+import com.JfXAmp.Controllers.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class Controller extends Application implements Initializable {
 
-
+    WindowController wndController = new WindowController();
 
     @FXML private CheckBox playListCheck;
     @FXML public Label fileLabel;
@@ -43,22 +41,6 @@ public class Controller extends Application implements Initializable {
 
     @FXML private Slider seekSlider;
 
-    @FXML private Slider band1;
-    @FXML private Slider band2;
-    @FXML private Slider band3;
-    @FXML private Slider band4;
-    @FXML private Slider band5;
-    @FXML private Slider band6;
-    @FXML private Slider band7;
-    @FXML private Slider band8;
-    @FXML private Slider band9;
-    @FXML private Slider band10;
-
-    @FXML private BarChart<Number, Number> vuChart;
-    private final Series<Number, Number> sr = new Series<Number, Number>();
-
-
-
     @FXML private ImageView albumImage;
 
     @FXML private Label genreLabel;
@@ -71,18 +53,10 @@ public class Controller extends Application implements Initializable {
 
     @FXML private Button addFilesButton;
 
-    @FXML private ListView<String> playlist;
 
     public AudioSpectrumListener audioListner;
     private final LibraryService libraryService = new LibraryService();
 
-
-
-
-
-    public void logInButtonClicked(){
-        System.out.println("Button Clicked");
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,41 +69,17 @@ public class Controller extends Application implements Initializable {
         File file = fileChooser.showOpenDialog(((MenuItem)event.getTarget()).getParentPopup().getScene().getWindow());
 
         MediaController.loadMedia(file.toURI().toURL().toString());
-        MediaController.playMedia(this);
-
-
+        MediaController.playMedia();
 
     }
 
-    public void AddFilesToPlaylist(ActionEvent event) throws MalformedURLException{
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Pick an MP3");
-
-        List<File> fileList = fileChooser.showOpenMultipleDialog(addFilesButton.getScene().getWindow());
-
-        for (File file: fileList) {
-            playlist.getItems().add(file.toURI().toURL().toString());
-        }
-
-    }
 
     public void showEq(){
 
         Equaliser eqWindow = new Equaliser(MediaController.playerReference()) ;
-
         eqWindow.Display();
 
-
     }
-
-    public void PlayFileFromPlaylist(){
-        fileLabel.setText(playlist.getSelectionModel().getSelectedItem().toString());
-
-        MediaController.loadMedia(playlist.getSelectionModel().getSelectedItem());
-        MediaController.playMedia(this);
-
-    }
-
 
 
     public void setVolume(){
@@ -146,7 +96,6 @@ public class Controller extends Application implements Initializable {
     @Override
     public void start(Stage stage) throws Exception {
         MediaController.bindVolume(volumeSlider);
-        playlist.getItems().add("http://edge-bauerabsolute-14-gos1.sharp-stream.com/absolute80s.mp3");
     }
 
 
@@ -156,8 +105,6 @@ public class Controller extends Application implements Initializable {
 
 
     public void stopButtonPressed(){
-        playlist.getItems().add("http://edge-bauerabsolute-14-gos1.sharp-stream.com/absolute80s.mp3");
-        playlist.getItems().add("http://144.76.39.214:9578/stream");
         MediaController.stopMedia();
     }
     public void playButtonPressed(){
@@ -211,15 +158,15 @@ public class Controller extends Application implements Initializable {
     }
 
 
+    public void CreatePlWindow(ActionEvent actionEvent) {
 
-
-
-    public void addToPlaylist(LibraryItem item) throws MalformedURLException {
-
-           File tmpFile = new File(item.Filepath);
-
-        playlist.getItems().add(tmpFile.toURI().toURL().toString());
+        wndController.StartPlayListWindow(WindowTypes.NewWindow);
     }
 
+    public void CreateEQWindow(ActionEvent actionEvent) {
+        wndController.StartEQWindow();
+    }
 
+    public void CreateVSWindow(ActionEvent actionEvent) {
+    }
 }
