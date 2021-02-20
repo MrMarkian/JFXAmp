@@ -1,13 +1,10 @@
 package com.JfXAmp.Controllers;
 
-import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.scene.Scene;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -18,71 +15,31 @@ import javafx.scene.media.AudioEqualizer;
 import javafx.scene.media.EqualizerBand;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.*;
 
+public class Equaliser implements BaseWindow{
 
-public class Equaliser {
-
-    @FXML private  final GridPane gridPane = new GridPane();
-
+    GridPane gridPane = new GridPane();
     VBox vBox = new VBox();
-    private final  Stage window;
-    private float t = 0.0f;
 
-    protected ObservableList<EqualizerBand> currentEqList = FXCollections.observableArrayList(new EqualizerBand());
+    private final float t = 0.0f;
 
+      private MediaPlayer mp ;
+     ObservableList<EqualizerBand> bands ;
 
-    public Equaliser(MediaPlayer mediaPlayer) {
+    public Equaliser() {
+        mp = MediaController.playerReference();
+    }
 
-        window = new Stage(StageStyle.DECORATED);
-
-        window.setTitle("Equaliser");
-        window.setMinHeight(400);
-        window.setMinWidth(400);
-        window.setHeight(400);
-        window.setWidth(400);
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-
-        Scene scene = new Scene(gridPane);
-        createUI(mediaPlayer);
-        window.setScene(scene);
+    @Override
+    public void Init() {
 
     }
 
-    public void Display() {
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                if (t <= 1.0f) {
-                    gridPane.setOpacity(t);
-                    t+= 0.01;
-                } else {
-                    this.stop();
-                }
-
-
-
-            }
-        };
-        timer.start();
-        window.show();
-    }
-
-    public void updateControls()  {
-
-    }
-
-
-    public void loadEQ(MediaPlayer mediaPlayer) {
-        final ObservableList<EqualizerBand> bands = mediaPlayer.getAudioEqualizer().getBands();
-
-
-
-        if (MediaController.currentEqSettings.size() == 1 || MediaController.currentEqSettings == null ) {
+    //todo: What is this function supposed to achive? - Maybe revist.
+    public void loadEQ() {
+        bands = MediaController.currentEqSettings;
 
             double min = EqualizerBand.MIN_GAIN;
             double max = EqualizerBand.MAX_GAIN;
@@ -100,7 +57,6 @@ public class Equaliser {
                     bands.add(new EqualizerBand(freq, freq / 2 , 0));
                     freq *= 2;
                 }
-            }
 
     /*        bands.clear();
 
@@ -119,31 +75,25 @@ public class Equaliser {
                 freq *= 2;
             }
          */
-            MediaController.currentEqSettings.clear();
-            MediaController.currentEqSettings.addAll(bands);
+         //   MediaController.currentEqSettings.clear();
+          //  MediaController.currentEqSettings.addAll(bands);
 
 
         } else
         {
-
             bands.clear();
             bands.addAll(MediaController.currentEqSettings);
         }
     }
 
-     public void createUI(MediaPlayer mediaPlayer){
+     public Group createUI(){
 
+        gridPane.getChildren().removeAll();
+        vBox.getChildren().removeAll();
 
-        gridPane.getChildren().clear();
-        vBox.getChildren().clear();
-
-        final AudioEqualizer equalizer;
-        try {
-           equalizer = mediaPlayer.getAudioEqualizer();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return;
-        }
+      //  if (mp != null) {
+     //         loadEQ();
+      //  }
 
         Button loadButton = new Button("Load");
         loadButton.setOnAction(e-> {
@@ -165,46 +115,59 @@ public class Equaliser {
 
         Button editButton = new Button("Edit");
         editButton.setOnAction(e -> {
-
         });
 
         vBox.getChildren().add(loadButton);
         vBox.getChildren().add(saveButton);
         vBox.getChildren().add(editButton);
-        vBox.setSpacing(20);
+        vBox.setSpacing(5);
 
         gridPane.add(vBox, 0, 0);
-        final ObservableList<EqualizerBand> bands = equalizer.getBands();
 
-        double min = -12;
+          //  AudioEqualizer equalizer = MediaController.getEq();
+          // ObservableList<EqualizerBand> bands = mp.getAudioEqualizer().getBands();
 
-        double max = 12 ;
-        double mid = (max - min) / 2;
-        double freq = 32;
+            double min = -12;
+            double max = 12;
+            double mid = (max - min) / 2;
+            double freq = 32;
 
-        int bandCount = 10;
+            int bandCount = 10;
 
-        for (int i = 0; i < bands.size(); ++i) {
-            EqualizerBand eb = bands.get(i);
-            Slider s = createEQSlider(eb, min, max);
-            final Label l = new Label(formatFrequency(eb.getCenterFrequency()));
-            final Label b = new Label(formatFrequency(eb.getBandwidth()));
+          if(mp != null) {
 
+              for (int i = 0; i < mp.getAudioEqualizer().getBands().size(); ++i) {
+                  EqualizerBand eb = mp.getAudioEqualizer().getBands().get(i);
+                  Slider s = createEQSlider(eb, min, max);
+                  final Label l = new Label(formatFrequency(eb.getCenterFrequency()));
+                  final Label b = new Label(formatFrequency(eb.getBandwidth()));
 
-            GridPane.setHalignment(l, HPos.CENTER);
-            GridPane.setHalignment(b, HPos.CENTER);
-            GridPane.setHalignment(s, HPos.CENTER);
-            GridPane.setHgrow(s, Priority.ALWAYS);
-            GridPane.setVgrow(s, Priority.ALWAYS);
+                  GridPane.setHalignment(l, HPos.CENTER);
+                  GridPane.setHalignment(b, HPos.CENTER);
+                  GridPane.setHalignment(s, HPos.CENTER);
+                  GridPane.setHgrow(s, Priority.ALWAYS);
+                  GridPane.setVgrow(s, Priority.ALWAYS);
 
-            gridPane.add(l, i+1, 0);
-            gridPane.add(b, i+1, 1);
-            gridPane.add(s, i+1, 2);
-        }
+                  gridPane.add(l, i + 1, 0);
+                  gridPane.add(b, i + 1, 1);
+                  gridPane.add(s, i + 1, 2);
+              }
+          } else
+          {
+              Label NoEqLabel = new Label("No Equaliser due to no Media being played");
+              Button ReconnectButton = new Button("Reconnect");
+              ReconnectButton.setOnAction(e-> {
+                  createUI();
+              });
+              gridPane.add(NoEqLabel,0,3);
+              gridPane.add(ReconnectButton,0,4);
 
+          }
+        Group g = new Group();
+        g.getChildren().add(gridPane);
 
+        return g;
     }
-
 
     private static String formatFrequency(double centerFrequency) {
         if (centerFrequency < 1000) {
@@ -222,7 +185,7 @@ public class Equaliser {
         s.setMinorTickCount(1);
         s.setOrientation(Orientation.VERTICAL);
         s.valueProperty().bindBidirectional(eb.gainProperty());
-        s.setPrefWidth(80);
+        s.setPrefWidth(50);
         return s;
     }
 
@@ -230,33 +193,27 @@ public class Equaliser {
     private void writeSettingsToText() throws IOException {
 
         FileChooser fileChooser = new FileChooser();
-
         File file = fileChooser.showSaveDialog(null);
-
         FileWriter fileWriter = new FileWriter(file);
 
-        ObservableList<EqualizerBand> bands = MediaController.getcurrentEqSettings();
+       bands = mp.getAudioEqualizer().getBands();
 
         for (EqualizerBand eqB : bands) {
-
             fileWriter.write(eqB.getCenterFrequency() + "," + eqB.getBandwidth() + "," + eqB.getGain()+"\n");
         }
-
         fileWriter.close();
     }
 
     private void readSettingsFromText() throws IOException {
-        ObservableList<EqualizerBand> bands = MediaController.playerReference().getAudioEqualizer().getBands();
-
+      //  mp.getAudioEqualizer().getBands().clear();
         FileChooser fileChooser = new FileChooser();
-
         File file = fileChooser.showOpenDialog(null);
-
-
         BufferedReader bfReader = new BufferedReader(new FileReader(file));
-
         String currentLine;
 
+      //  AudioEqualizer ebbands = mp.getAudioEqualizer();
+     //   ebbands.getBands().clear();
+        bands = MediaController.currentEqSettings;
         bands.clear();
 
         while ((currentLine = bfReader.readLine()) != null){
@@ -265,9 +222,13 @@ public class Equaliser {
                 bands.add(new EqualizerBand(Double.valueOf(stringSplit[0]),Double.valueOf(stringSplit[1]),Double.valueOf(stringSplit[2])));
             }
         }
-        MediaController.currentEqSettings.clear();
-        MediaController.currentEqSettings.addAll(bands);
-        createUI(MediaController.playerReference());
+
+         createUI();
+
     }
 
+    @Override
+    public void Close() {
+
+    }
 }

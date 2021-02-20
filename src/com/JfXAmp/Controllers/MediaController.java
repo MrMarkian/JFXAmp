@@ -96,9 +96,9 @@ public class MediaController {
               //  cont.updateAllValues();
 //                mediaPlayer.currentTimeProperty().addListener((observable, oldDuration, newDuration)
 //                        -> cont.updateSeekSlider(oldDuration, newDuration));
-                Equaliser equaliser = new Equaliser(mediaPlayer);
-                equaliser.loadEQ(mediaPlayer);
-                equaliser.createUI(mediaPlayer);
+              //  Equaliser equaliser = new Equaliser(mediaPlayer);
+              //  equaliser.loadEQ(mediaPlayer);
+               // equaliser.createUI(mediaPlayer);
                 mediaPlayer.setAudioSpectrumListener(currentSpectrum);
                 mediaPlayer.setRate(playspeed);
                 mediaPlayer.play();
@@ -126,7 +126,6 @@ public class MediaController {
     public static String getMediaData(){
         String data = "";
         data = mediaPlayer.getMedia().getDuration().toString();
-
         return data;
     }
 

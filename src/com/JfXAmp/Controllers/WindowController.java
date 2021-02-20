@@ -1,40 +1,81 @@
 package com.JfXAmp.Controllers;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class WindowController {
 
-    private final ObservableList<Stage> activeWindowList = FXCollections.observableArrayList();
+    private final ObservableList<Scene> activeWindowList = FXCollections.observableArrayList();
+    private MediaPlayer mediaPlayer;
 
-    public WindowController() {
+
+    public WindowController(Boolean showWindowManager) {
+
+        if(showWindowManager)
         ShowWindowManager();
     }
 
     public void StartPlayListWindow(WindowTypes windowType){
-        Playlist plWindow = new Playlist();
-        plWindow.initialiseWindow(WindowTypes.NewWindow);
-        plWindow.AttachWindowController(this);
-        activeWindowList.add(plWindow.GetStage());;
+        Playlist pl = new Playlist();
+        CreateWindow("Playlist Window V1", WindowTypes.NewWindow, pl.createUI());
+    }
+    public void StartEQWindow(WindowTypes windowTypes) {
+        Equaliser eq = new Equaliser();
+        CreateWindow("Eq Window - V1", WindowTypes.NewWindow, eq.createUI());
     }
 
-    public void StartEQWindow() {
-        Equaliser equaliser = new Equaliser(MediaController.playerReference());
-        equaliser.Display();
+    public void AddPlWindowToMain()
+    {
+
     }
 
-    public void CloseME(Stage windowToClose){
-        windowToClose.close();
-        activeWindowList.remove(windowToClose);
+    public MediaPlayer getMediaPlayer(){return  mediaPlayer;}
+
+
+    public void CreateWindow(String title, WindowTypes wndType, Group window ){
+
+        switch (wndType){
+            case NewWindow -> {
+                Scene newScene = new Scene(window);
+                Stage newWindow = new Stage(StageStyle.DECORATED);
+                newWindow.setScene(newScene);
+                newWindow.setTitle(title);
+                newWindow.setMinHeight(400);
+                newWindow.setMinWidth(400);
+                newWindow.setHeight(400);
+                newWindow.setWidth(400);
+                newWindow.show();
+                newWindow.setOnCloseRequest(e -> {
+                    CloseWindow(newScene);
+                });
+                activeWindowList.add(newScene);
+            }
+
+            case DockedWindow -> {
+
+            }
+        }
+
     }
+
+    public void CloseWindow(Scene wndToClose){
+
+        Stage stage = (Stage) wndToClose.getWindow();
+        stage.close();
+        activeWindowList.remove(wndToClose);
+    }
+
+
 
     public void ShowWindowManager()  {
 
@@ -48,10 +89,16 @@ public class WindowController {
 
         HBox hBox = new HBox();
         hBox.setFillHeight(true);
-        ListView<Stage> WindowList = new ListView<>();
+        ListView<Scene> WindowList = new ListView<>();
+        Button closeWindowButton = new Button("Close Window");
+        closeWindowButton.setOnAction(e->{
+            CloseWindow(WindowList.getSelectionModel().getSelectedItem());
+
+        });
 
         WindowList.setItems(activeWindowList);
         hBox.getChildren().add(WindowList);
+        hBox.getChildren().add(closeWindowButton);
 
         Scene scene = new Scene(hBox);
         WindowManagerWindow.setScene(scene);

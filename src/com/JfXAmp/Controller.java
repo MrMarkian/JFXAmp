@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class Controller extends Application implements Initializable {
 
-    WindowController wndController = new WindowController();
+    WindowController wndController = new WindowController(true);
 
     @FXML private CheckBox playListCheck;
     @FXML public Label fileLabel;
@@ -76,8 +76,8 @@ public class Controller extends Application implements Initializable {
 
     public void showEq(){
 
-        Equaliser eqWindow = new Equaliser(MediaController.playerReference()) ;
-        eqWindow.Display();
+//        Equaliser eqWindow = new Equaliser(MediaController.playerReference()) ;
+//        eqWindow.Display();
 
     }
 
@@ -164,7 +164,7 @@ public class Controller extends Application implements Initializable {
     }
 
     public void CreateEQWindow(ActionEvent actionEvent) {
-        wndController.StartEQWindow();
+        wndController.StartEQWindow(WindowTypes.NewWindow);
     }
 
     public void CreateVSWindow(ActionEvent actionEvent) {

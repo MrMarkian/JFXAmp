@@ -1,6 +1,5 @@
 package com.JfXAmp.Controllers;
 
-import com.JfXAmp.Controllers.MediaController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -37,8 +36,10 @@ public class Visualisation extends Application implements AudioSpectrumListener 
     }
 
     private Parent createUI() {
+
         VBox root = new VBox();
         MediaController.requestSpectrum(this);
+
         if( MediaController.currentSpectrum != null){
 
             updateInterval.setOnMouseReleased(e -> {
