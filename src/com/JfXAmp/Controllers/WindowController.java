@@ -148,7 +148,7 @@ public class WindowController {
         return eq;
     }
 
-    //THEME SUPPORT
+    //THEME SUPPORT - Expand
 
     public Theme getTheme() {return theme;}
     public void setTheme(Theme theme){
