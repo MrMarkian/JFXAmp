@@ -3,6 +3,7 @@ package com.JfXAmp.Controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -25,11 +26,11 @@ public class Equaliser implements BaseWindow{
 
     private final float t = 0.0f;
 
-      private MediaPlayer mp ;
-     ObservableList<EqualizerBand> bands ;
+   //   private MediaPlayer mp ;
+     public static ObservableList<EqualizerBand> bands ;
 
     public Equaliser() {
-        mp = MediaController.playerReference();
+
     }
 
     @Override
@@ -60,7 +61,6 @@ public class Equaliser implements BaseWindow{
 
     /*        bands.clear();
 
-
             for (int j = 0; j < bandCount; j++) {
                 // Use j and BAND_COUNT to calculate a value between 0 and 2*pi
                 double theta = (double) j / (double) (bandCount - 1) * (2 * Math.PI);
@@ -77,8 +77,6 @@ public class Equaliser implements BaseWindow{
          */
          //   MediaController.currentEqSettings.clear();
           //  MediaController.currentEqSettings.addAll(bands);
-
-
         } else
         {
             bands.clear();
@@ -121,8 +119,8 @@ public class Equaliser implements BaseWindow{
         vBox.getChildren().add(saveButton);
         vBox.getChildren().add(editButton);
         vBox.setSpacing(5);
-
-        gridPane.add(vBox, 0, 0);
+        vBox.setPadding(new Insets(0, 20, 10, 20));
+         gridPane.add(vBox, 0, 0);
 
           //  AudioEqualizer equalizer = MediaController.getEq();
           // ObservableList<EqualizerBand> bands = mp.getAudioEqualizer().getBands();
@@ -130,20 +128,20 @@ public class Equaliser implements BaseWindow{
             double min = -12;
             double max = 12;
             double mid = (max - min) / 2;
-            double freq = 32;
+            double freq = 64;
 
             int bandCount = 10;
 
-          if(mp != null) {
+          if(MediaController.playerReference() != null) {
 
-              for (int i = 0; i < mp.getAudioEqualizer().getBands().size(); ++i) {
-                  EqualizerBand eb = mp.getAudioEqualizer().getBands().get(i);
+              for (int i = 0; i < MediaController.playerReference().getAudioEqualizer().getBands().size(); ++i) {
+                  EqualizerBand eb = MediaController.playerReference().getAudioEqualizer().getBands().get(i);
                   Slider s = createEQSlider(eb, min, max);
                   final Label l = new Label(formatFrequency(eb.getCenterFrequency()));
                   final Label b = new Label(formatFrequency(eb.getBandwidth()));
 
-                  GridPane.setHalignment(l, HPos.CENTER);
-                  GridPane.setHalignment(b, HPos.CENTER);
+                  GridPane.setHalignment(l, HPos.LEFT);
+                  GridPane.setHalignment(b, HPos.LEFT);
                   GridPane.setHalignment(s, HPos.CENTER);
                   GridPane.setHgrow(s, Priority.ALWAYS);
                   GridPane.setVgrow(s, Priority.ALWAYS);
@@ -165,7 +163,7 @@ public class Equaliser implements BaseWindow{
           }
         Group g = new Group();
         g.getChildren().add(gridPane);
-
+        bands = MediaController.playerReference().getAudioEqualizer().getBands();
         return g;
     }
 
@@ -196,7 +194,7 @@ public class Equaliser implements BaseWindow{
         File file = fileChooser.showSaveDialog(null);
         FileWriter fileWriter = new FileWriter(file);
 
-       bands = mp.getAudioEqualizer().getBands();
+       bands = MediaController.playerReference().getAudioEqualizer().getBands();
 
         for (EqualizerBand eqB : bands) {
             fileWriter.write(eqB.getCenterFrequency() + "," + eqB.getBandwidth() + "," + eqB.getGain()+"\n");
@@ -225,6 +223,10 @@ public class Equaliser implements BaseWindow{
 
          createUI();
 
+    }
+
+    public static ObservableList<EqualizerBand> getBands(){
+        return  bands;
     }
 
     @Override

@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.JfXAmp.Controller">
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.JfXAmp.Controller">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -48,7 +48,9 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Attach Window">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                            <MenuItem mnemonicParsing="false" onAction="#DockPlayListWindow" text="Playlist" />
+                              <MenuItem mnemonicParsing="false" onAction="#DockEqWindow" text="Equaliser" />
+                              <MenuItem mnemonicParsing="false" onAction="#DockVisWindow" text="Visualisation" />
                           </items>
                         </Menu>
                     </items>
@@ -64,17 +66,8 @@
       </HBox>
    </top>
    <left>
-      <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="eqButton" mnemonicParsing="false" onAction="#showEq" text="E Q">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#showVisuals" text="Vis" />
             <Slider fx:id="volumeSlider" minorTickCount="5" onKeyReleased="#setVolume" onMouseDragged="#setVolume" onMouseReleased="#setVolume" onScrollFinished="#setVolume" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" VBox.vgrow="ALWAYS">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -88,9 +81,9 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Accordion>
+            <Accordion fx:id="AccordionArea" VBox.vgrow="ALWAYS">
               <panes>
-                <TitledPane text="IDV3 Info">
+                <TitledPane alignment="TOP_CENTER" contentDisplay="CENTER" text="IDV3 Info">
                   <content>
                     <AnchorPane>
                            <children>
@@ -129,12 +122,9 @@
                            </children>
                         </AnchorPane>
                   </content>
-                </TitledPane>
-                <TitledPane animated="false" text="Visualiser" />
-                <TitledPane animated="false" text="untitled 3">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
+                     <font>
+                        <Font name="System Bold" size="11.0" />
+                     </font>
                 </TitledPane>
               </panes>
             </Accordion>

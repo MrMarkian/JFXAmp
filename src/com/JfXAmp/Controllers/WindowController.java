@@ -1,6 +1,7 @@
 package com.JfXAmp.Controllers;
 
 
+import com.JfXAmp.Model.Theme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -11,13 +12,22 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
+
+import java.util.List;
 
 
 public class WindowController {
 
-    private final ObservableList<Scene> activeWindowList = FXCollections.observableArrayList();
-    private MediaPlayer mediaPlayer;
+    private final ObservableList<Window> activeWindowList = FXCollections.observableArrayList();
+    private final ObservableList<Scene> activeSceneList = FXCollections.observableArrayList();
+    private final ObservableList<Group> activeGroupList = FXCollections.observableArrayList();
 
+
+    private final Equaliser eq = new Equaliser();
+
+    private MediaPlayer mediaPlayer;
+    private Theme theme = Theme.DARK;
 
     public WindowController(Boolean showWindowManager) {
 
@@ -30,8 +40,18 @@ public class WindowController {
         CreateWindow("Playlist Window V1", WindowTypes.NewWindow, pl.createUI());
     }
     public void StartEQWindow(WindowTypes windowTypes) {
-        Equaliser eq = new Equaliser();
+
         CreateWindow("Eq Window - V1", WindowTypes.NewWindow, eq.createUI());
+    }
+
+    public void StartVSWindow(WindowTypes windowTypes){
+        Visualisation vs = new Visualisation();
+        CreateWindow("Visualisation - V1", WindowTypes.NewWindow,vs.createUI());
+    }
+
+    public void DockPlaylistWindow(){
+        Playlist pl = new Playlist();
+        InjectPane(pl.createUI(),activeSceneList.get(0));
     }
 
     public void AddPlWindowToMain()
@@ -42,7 +62,7 @@ public class WindowController {
     public MediaPlayer getMediaPlayer(){return  mediaPlayer;}
 
 
-    public void CreateWindow(String title, WindowTypes wndType, Group window ){
+    private void CreateWindow(String title, WindowTypes wndType, Group window ){
 
         switch (wndType){
             case NewWindow -> {
@@ -58,21 +78,34 @@ public class WindowController {
                 newWindow.setOnCloseRequest(e -> {
                     CloseWindow(newScene);
                 });
-                activeWindowList.add(newScene);
+                activeSceneList.add(newScene);
+                activeGroupList.add(window);
+                activeWindowList.add(newWindow);
+
             }
 
             case DockedWindow -> {
 
+
             }
         }
 
+
+
+
     }
 
-    public void CloseWindow(Scene wndToClose){
+    private void InjectPane(Group window, Scene DockingWindow){
 
+
+
+    }
+
+
+    public void CloseWindow(Scene wndToClose){
         Stage stage = (Stage) wndToClose.getWindow();
         stage.close();
-        activeWindowList.remove(wndToClose);
+        activeSceneList.remove(wndToClose);
     }
 
 
@@ -91,18 +124,36 @@ public class WindowController {
         hBox.setFillHeight(true);
         ListView<Scene> WindowList = new ListView<>();
         Button closeWindowButton = new Button("Close Window");
+        Button dockWindowButton = new Button("Dock Window");
         closeWindowButton.setOnAction(e->{
             CloseWindow(WindowList.getSelectionModel().getSelectedItem());
 
         });
 
-        WindowList.setItems(activeWindowList);
+        WindowList.setItems(activeSceneList);
         hBox.getChildren().add(WindowList);
         hBox.getChildren().add(closeWindowButton);
 
         Scene scene = new Scene(hBox);
         WindowManagerWindow.setScene(scene);
         WindowManagerWindow.show();
+
+    }
+
+    //EQ Settings passback to MediaController
+
+    public Equaliser getEq(){
+        return eq;
+    }
+
+    //THEME SUPPORT
+
+    public Theme getTheme() {return theme;}
+    public void setTheme(Theme theme){
+        this.theme = theme;
+    }
+
+    public void updateTheme(){
 
     }
 

@@ -3,12 +3,13 @@ package com.JfXAmp.Controllers;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.paint.Color;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
 
 import static java.lang.Math.*;
 
-public class Visualisation extends Application implements AudioSpectrumListener {
+public class Visualisation extends Application implements AudioSpectrumListener, BaseWindow {
 
     private GraphicsContext graphicsContext;
 
@@ -28,6 +29,8 @@ public class Visualisation extends Application implements AudioSpectrumListener 
     private final Canvas canvas = new Canvas(1280, 1200);
     private final Slider updateInterval = new Slider(0.01,1,0.1);
 
+    GridPane gridPane = new GridPane();
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createUI()));
@@ -35,7 +38,12 @@ public class Visualisation extends Application implements AudioSpectrumListener 
         normalise(1);
     }
 
-    private Parent createUI() {
+    @Override
+    public void Init() {
+
+    }
+
+    public Group createUI() {
 
         VBox root = new VBox();
         MediaController.requestSpectrum(this);
@@ -67,7 +75,14 @@ public class Visualisation extends Application implements AudioSpectrumListener 
             Label failLabel = new Label("Failed to Aquire Visualisation Data.\n Please start media, before starting a visualisation");
             root.getChildren().add(failLabel);
         }
-            return root;
+        gridPane.add(root,0,0);
+        Group g = new Group();
+        g.getChildren().add(gridPane);
+            return g;
+    }
+
+    @Override
+    public void Close() {
 
     }
 
@@ -75,7 +90,6 @@ public class Visualisation extends Application implements AudioSpectrumListener 
         MediaController.playerReference().setAudioSpectrumInterval(updateInterval.getValue());
 
     }
-
 
     private void draw() {
         graphicsContext.clearRect(0,0,canvas.getWidth(),canvas.getHeight());
@@ -130,7 +144,6 @@ public class Visualisation extends Application implements AudioSpectrumListener 
 
     @Override
     public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
-
         spectrumData = magnitudes;
         draw();
     }

@@ -53,6 +53,9 @@ public class Controller extends Application implements Initializable {
 
     @FXML private Button addFilesButton;
 
+    @FXML private Accordion AccordionArea;
+
+
 
     public AudioSpectrumListener audioListner;
     private final LibraryService libraryService = new LibraryService();
@@ -70,14 +73,6 @@ public class Controller extends Application implements Initializable {
 
         MediaController.loadMedia(file.toURI().toURL().toString());
         MediaController.playMedia();
-
-    }
-
-
-    public void showEq(){
-
-//        Equaliser eqWindow = new Equaliser(MediaController.playerReference()) ;
-//        eqWindow.Display();
 
     }
 
@@ -139,10 +134,6 @@ public class Controller extends Application implements Initializable {
         MediaController.Seek(seekSlider.getValue());}
     }
 
-    public void showVisuals() throws Exception {
-        Visualisation visWindow = new Visualisation();
-        visWindow.start(new Stage());
-    }
 
     public void updateSeekSlider(Duration oldDuration, Duration newDuration){
         if(!seekSlider.isValueChanging()) {
@@ -168,5 +159,25 @@ public class Controller extends Application implements Initializable {
     }
 
     public void CreateVSWindow(ActionEvent actionEvent) {
+        wndController.StartVSWindow(WindowTypes.NewWindow);
     }
+
+    public void DockPlayListWindow(ActionEvent actionEvent){
+        Playlist pl = new Playlist();
+        TitledPane plTitledPane = new TitledPane("Playlist", pl.createUI());
+        AccordionArea.getPanes().add(plTitledPane);
+    }
+
+    public void DockEqWindow(ActionEvent actionEvent){
+        Equaliser eq = new Equaliser();
+        TitledPane plTitledPane = new TitledPane("Equaliser", eq.createUI());
+        AccordionArea.getPanes().add(plTitledPane);
+    }
+
+    public void DockVisWindow(ActionEvent actionEvent){
+        Visualisation vs = new Visualisation();
+        TitledPane vsTitledPane = new TitledPane("Visualisation", vs.createUI());
+        AccordionArea.getPanes().add(vsTitledPane);
+    }
+
 }

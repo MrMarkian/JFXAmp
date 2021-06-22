@@ -2,6 +2,7 @@ package com.JfXAmp.Controllers;
 
 import com.JfXAmp.Controller;
 import com.JfXAmp.Controllers.Equaliser;
+import com.JfXAmp.Model.AudioEngine;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
@@ -13,41 +14,37 @@ public class MediaController {
 
     private static Media media;
     private static MediaPlayer mediaPlayer;
-
     private static String Album, Artist, Title, Year, Genre;
-
     private static Double currentVolume =1.0;
     public static AudioSpectrumListener currentSpectrum;
-    static protected ObservableList<EqualizerBand> currentEqSettings = FXCollections.observableArrayList(new EqualizerBand());;
+    static protected ObservableList<EqualizerBand> currentEqSettings = FXCollections.observableArrayList(new EqualizerBand());
 
-    private static Equaliser eqWindow;
+    private static AudioEngine currentAudioEngine = AudioEngine.JavaFX;
 
     public MediaController() {
 
     }
 
     public static void loadMedia(String file){
+        if (file.substring(file.length() - 4).equals(".mid")){
+            currentAudioEngine = AudioEngine.JavaMIDI;
+        }
         media = new Media(file);
-
 
     }
 
     public static void stopMedia(){
         mediaPlayer.stop();
     }
-
     public static void continuePlayback(){
         mediaPlayer.play();
     }
-
     public static void setPlaybackRate(Double rate){
         mediaPlayer.setRate(rate);
     }
-
     public static Duration getNowTime(){
         return mediaPlayer.getCurrentTime();
     }
-
     public static Duration getLengthInTime(){
         return mediaPlayer.getCycleDuration();
     }
@@ -57,56 +54,62 @@ public class MediaController {
     }
     public static double playspeed =1;
 
-
     public static ObservableList<EqualizerBand> getcurrentEqSettings() {return currentEqSettings;}
 
 
     public static void playMedia(){
-        if(mediaPlayer != null) {
-            mediaPlayer.stop();
-        }
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(currentVolume);
+
+
+
+        switch (currentAudioEngine) {
+
+            case JavaFX -> {
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setVolume(currentVolume);
 
        /* mediaPlayer.currentTimeProperty().addListener((observable -> {
             cont.updatePlayTime();
         }));
 */
-        media.getMetadata().addListener(new MapChangeListener<String, Object>() {
-            @Override
-            public void onChanged(Change<? extends String, ? extends Object> ch) {
-                if (ch.wasAdded()) {
-                    handleMetadata(ch.getKey(), ch.getValueAdded());
-                }
-            }
-        });
+            media.getMetadata().addListener(new MapChangeListener<String, Object>() {
+                                                @Override
+                                                public void onChanged(Change<? extends String, ? extends Object> ch) {
+                                                    if (ch.wasAdded()) {
+                                                        handleMetadata(ch.getKey(), ch.getValueAdded());
+                                                    }
+                                                }
+                                            }
+            );
 
-
-
-        mediaPlayer.setAudioSpectrumNumBands(96);
-        mediaPlayer.setAudioSpectrumThreshold(-120);
-        mediaPlayer.setAudioSpectrumInterval(0.01);
+            mediaPlayer.setAudioSpectrumNumBands(96);
+            mediaPlayer.setAudioSpectrumThreshold(-120);
+            mediaPlayer.setAudioSpectrumInterval(0.01);
 /*        mediaPlayer.setAudioSpectrumListener((timestamp, duration, magnitudes,phases) -> {
             cont.updateVUMeters(magnitudes);
         });*/
-   //     mediaPlayer.setAudioSpectrumInterval(1d/30d);
+            //     mediaPlayer.setAudioSpectrumInterval(1d/30d);
 
-        mediaPlayer.setOnReady(new Runnable() {
-            public void run() {
-              //  cont.updateAllValues();
-//                mediaPlayer.currentTimeProperty().addListener((observable, oldDuration, newDuration)
-//                        -> cont.updateSeekSlider(oldDuration, newDuration));
-              //  Equaliser equaliser = new Equaliser(mediaPlayer);
-              //  equaliser.loadEQ(mediaPlayer);
-               // equaliser.createUI(mediaPlayer);
-                mediaPlayer.setAudioSpectrumListener(currentSpectrum);
-                mediaPlayer.setRate(playspeed);
-                mediaPlayer.play();
+            mediaPlayer.setOnReady(new Runnable() {
+                public void run() {
 
+                    if (Equaliser.getBands() != null) {
+                        mediaPlayer.getAudioEqualizer().getBands().clear();
+                        mediaPlayer.getAudioEqualizer().getBands().addAll(Equaliser.getBands());
+                    }
+                    mediaPlayer.setAudioSpectrumListener(currentSpectrum);
+                    mediaPlayer.setRate(playspeed);
+                    mediaPlayer.play();
+                }
+            });
+
+        }
+            case JavaMIDI -> {
 
             }
-        });
-
+        }
 
     }
 
