@@ -126,6 +126,8 @@ public class WindowController {
         Button closeWindowButton = new Button("Close Window");
         Button dockWindowButton = new Button("Dock Window");
         closeWindowButton.setOnAction(e->{
+
+
             CloseWindow(WindowList.getSelectionModel().getSelectedItem());
 
         });
