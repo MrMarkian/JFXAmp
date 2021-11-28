@@ -11,6 +11,28 @@ import java.util.*;
 public class LibraryService {
     List<LibraryItem> currentPlaylist = new ArrayList<LibraryItem>();
     public ObservableList<LibraryItem> observablePlaylist = FXCollections.observableArrayList(new LibraryItem());
+    private LibraryItem currentPlayingMedia;
+    private LibraryItem currentSelectedMedia;
+
+
+    private Collection<SelectedMediaListener> selectedMediaListeners = new HashSet<>();
+
+
+    public interface SelectedMediaListener extends EventListener{
+        void onSelectionChange();
+    }
+
+    public void RegisterMediaSelectionListener(SelectedMediaListener listener){
+        selectedMediaListeners.add(listener);
+
+    }
+
+    public void SelectedMediaChanges(){
+        for (SelectedMediaListener listener:selectedMediaListeners ) {
+            listener.onSelectionChange();
+        }
+    }
+
 
     //:Todo  -- Needs to handle relative locations
 
@@ -49,6 +71,23 @@ public class LibraryService {
             }
         }
 
+    }
+
+    public void RegisterPlayback (LibraryItem currentMedia){
+        currentPlayingMedia = currentMedia;
+    }
+
+    public LibraryItem RequestNextMedia(){
+        for (LibraryItem item: observablePlaylist ) {
+            if( currentPlayingMedia == item){
+
+               return observablePlaylist.get(observablePlaylist.indexOf(item) + 1);
+
+
+            }
+        }
+
+        return new LibraryItem();
     }
 
     public List<LibraryItem> loadM3u(File path) throws IOException {

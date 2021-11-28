@@ -2,29 +2,23 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.JfXAmp.Controller">
+<BorderPane prefHeight="147.0" prefWidth="583.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.JfXAmp.Controller">
    <top>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox>
          <children>
-            <MenuBar HBox.hgrow="ALWAYS">
+            <MenuBar HBox.hgrow="SOMETIMES">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -44,6 +38,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#CreateEQWindow" text="Equaliser" />
                             <MenuItem mnemonicParsing="false" onAction="#CreatePlWindow" text="Playlist" />
                             <MenuItem mnemonicParsing="false" onAction="#CreateVSWindow" text="Visualiser" />
+                              <MenuItem mnemonicParsing="false" onAction="#CreateControlsWindow" text="Controls" />
                           </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Attach Window">
@@ -51,6 +46,7 @@
                             <MenuItem mnemonicParsing="false" onAction="#DockPlayListWindow" text="Playlist" />
                               <MenuItem mnemonicParsing="false" onAction="#DockEqWindow" text="Equaliser" />
                               <MenuItem mnemonicParsing="false" onAction="#DockVisWindow" text="Visualisation" />
+                              <MenuItem mnemonicParsing="false" onAction="#DockControlsWindow" text="Controls" />
                           </items>
                         </Menu>
                     </items>
@@ -66,24 +62,21 @@
       </HBox>
    </top>
    <left>
-      <VBox spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <Slider fx:id="volumeSlider" minorTickCount="5" onKeyReleased="#setVolume" onMouseDragged="#setVolume" onMouseReleased="#setVolume" onScrollFinished="#setVolume" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" VBox.vgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding></Slider>
-         </children>
+      <VBox spacing="20.0">
          <padding>
             <Insets bottom="20.0" left="5.0" right="5.0" />
          </padding>
+         <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </opaqueInsets>
       </VBox>
    </left>
    <center>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox snapToPixel="false" BorderPane.alignment="TOP_LEFT">
          <children>
-            <Accordion fx:id="AccordionArea" VBox.vgrow="ALWAYS">
+            <Accordion fx:id="AccordionArea" centerShape="false" snapToPixel="false" VBox.vgrow="ALWAYS">
               <panes>
-                <TitledPane alignment="TOP_CENTER" contentDisplay="CENTER" text="IDV3 Info">
+                <TitledPane alignment="TOP_LEFT" contentDisplay="CENTER" text="IDV3 Info">
                   <content>
                     <AnchorPane>
                            <children>
@@ -127,6 +120,9 @@
                      </font>
                 </TitledPane>
               </panes>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Accordion>
          </children>
          <BorderPane.margin>
@@ -134,59 +130,10 @@
          </BorderPane.margin>
       </VBox>
    </center>
-   <bottom>
-      <HBox alignment="BOTTOM_RIGHT" fillHeight="false" spacing="30.0" BorderPane.alignment="CENTER">
-         <children>
-            <Slider fx:id="speedSlider" blockIncrement="0.1" majorTickUnit="0.1" max="2.0" min="0.5" minorTickCount="1" onMouseReleased="#speedMeUp" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" HBox.hgrow="ALWAYS">
-               <effect>
-                  <Lighting bumpInput="$null">
-                     <light>
-                        <Light.Distant color="#d0d0d0" />
-                     </light>
-                  </Lighting>
-               </effect></Slider>
-            <Label fx:id="fileLabel" alignment="CENTER" style="-fx-font-size: 35px;" text="0:00">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </Label>
-            <Slider fx:id="seekSlider" blockIncrement="0.0" majorTickUnit="10000.0" minorTickCount="0" onMouseReleased="#sliderSeek" showTickMarks="true" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets bottom="20.0" />
-               </HBox.margin>
-            </Slider>
-            <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonPressed" text="Stop">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font></Button>
-            <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed" text="Play">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-               <effect>
-                  <BoxBlur height="0.0" iterations="3" width="0.0" />
-               </effect></Button>
-         </children>
-         <opaqueInsets>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </opaqueInsets>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </HBox>
-   </bottom>
-   <right>
-      <VBox alignment="TOP_CENTER" spacing="5.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
-         </padding>
-      </VBox>
-   </right>
    <effect>
       <DropShadow />
    </effect>
+   <padding>
+      <Insets bottom="5.0" />
+   </padding>
 </BorderPane>

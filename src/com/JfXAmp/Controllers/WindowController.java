@@ -17,6 +17,8 @@ import javafx.stage.Window;
 import java.util.List;
 
 
+//todo: Clean up code around here.
+
 public class WindowController {
 
     private final ObservableList<Window> activeWindowList = FXCollections.observableArrayList();
@@ -42,6 +44,11 @@ public class WindowController {
     public void StartEQWindow(WindowTypes windowTypes) {
 
         CreateWindow("Eq Window - V1", WindowTypes.NewWindow, eq.createUI());
+    }
+
+    public void StartControllsWindow(WindowTypes windowType){
+        Controlls controlls = new Controlls();
+        CreateWindow("Controls - V1", WindowTypes.NewWindow,controlls.createUI() );
     }
 
     public void StartVSWindow(WindowTypes windowTypes){
@@ -111,9 +118,7 @@ public class WindowController {
 
 
     public void ShowWindowManager()  {
-
         Stage WindowManagerWindow = new Stage(StageStyle.DECORATED);
-
         WindowManagerWindow.setTitle("Window Manager");
         WindowManagerWindow.setMinHeight(400);
         WindowManagerWindow.setMinWidth(400);
@@ -126,7 +131,6 @@ public class WindowController {
         Button closeWindowButton = new Button("Close Window");
         Button dockWindowButton = new Button("Dock Window");
         closeWindowButton.setOnAction(e->{
-
 
             CloseWindow(WindowList.getSelectionModel().getSelectedItem());
 
