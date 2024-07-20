@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("View/MainWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/MainWindow.fxml"));
 
         primaryStage.setTitle("JFXAmp - V0.1 - Markian Rutkowskyj");
         primaryStage.setScene(new Scene(root, 800, 500));
@@ -19,9 +19,6 @@ public class Main extends Application {
         primaryStage.setMinWidth(400);
 
         primaryStage.show();
-
-
-
     }
 
 
